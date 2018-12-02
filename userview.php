@@ -5,7 +5,7 @@
   $searchType = $_GET['searchType'];
   $userName = $_GET['user_name'];
   $userID = $_GET['id'];
-  $currID = $_GET['currentID'];
+
 ?>
 
 <head>
@@ -18,8 +18,8 @@
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="signup.php" onclick="">Sign Up</a>
      <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
-    <a href="profile.php?currentID=$currID">Profile</a>
+   <?php else:  $currID = $_GET['currentID']; ?>
+    <a href="profile.php?currentID=<?php echo $currID; ?>">Profile</a>
     <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
 

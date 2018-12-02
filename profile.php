@@ -1,4 +1,5 @@
 <?php
+  include ("connections.php"); 
   session_start();
   $userID = $_GET['currentID'];
 ?>
@@ -11,13 +12,13 @@
 
 
 <div class="topnav">
-   <a href="index.php?currentID=$userID">Home</a>
-   <a class = "active" href="profile.php">Profile</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="login.php" onclick="">Log In</a>
      <a href="signup.php" onclick="">Sign Up</a>
    <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
+    <a href="index_loggedin.php?currentID=<?php echo $userID; ?>">Home</a>
+    <a class = "active" href="profile.php?currentID=<?php echo $userID; ?>">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
    
 </div>
@@ -27,7 +28,7 @@
 <?php else: ?>
 
 <html>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="w3.css">
 
 <div class="w3-bar w3-black">
   <button class="w3-bar-item w3-button" onclick="openTab('User Info')">My Info</button>
@@ -36,7 +37,17 @@
 </div>
 
 <div id="User Info" class="tabs">
-  <h2><h2>
+  <div class="w3-container w3-blue">
+  <h2>Username:
+  <?php
+    $query = "SELECT * from User where user_id = '$userID'";
+    $name = mysqli_query($connections, $query);
+    $row = mysqli_fetch_assoc($name);
+    echo $row['name'];
+    echo "<h2>"; ?>
+  
+  </div>
+  
 </div>
 
 <div id="Clubs" class="tabs" style="display:none">

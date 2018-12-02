@@ -3,8 +3,6 @@ session_start();
 include("connections.php");
 $searchTerm = $_GET['searchTerm'];
 $searchType = $_GET['searchType'];
-$currID = $_GET['currentID'];
-
 ?>
 
 <head>
@@ -14,12 +12,14 @@ $currID = $_GET['currentID'];
 </head>
 
 <div class="topnav">
-   <a href="index.php?currentID=$currID">Home</a>
+ 
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+    <a href="index.php">Home</a>
     <a href="login.php" onclick="">Log In</a>
     <a href="signup.php" onclick="">Sign Up</a>
-   <?php else: ?>
-    <a href="profile.php?currentID=$currID">Profile</a>
+   <?php else:  $currID = $_GET['currentID']; ?>
+    <a href="index_loggedin.php?currentID=<?php echo $currID; ?>">Home</a>
+    <a href="profile.php?currentID=<?php echo $currID; ?>">Profile</a>
     <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
   
@@ -57,12 +57,17 @@ $currID = $_GET['currentID'];
         while ($row=mysqli_fetch_assoc($name_query)) {
           $db_id = $row["user_id"];
           $db_name=$row["name"];
-          echo"
-          <tr>
-            <td> <h2>$db_name</h2>
-            <td> <a href='userview.php?currentID=$currID&id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>
-          </tr>
-          ";
+     
+          if((!isset($_GET['currentID']))):
+            echo "<tr> <td> <h2>$db_name</h2>
+            <td> <a href='userview.php?id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>";
+          else:
+             $currID = $_GET['currentID'];
+             echo "<tr> <td> <h2>$db_name</h2>
+             <td> <a href='userview.php?currentID=$currID&id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>";
+          endif;
+          
+          echo "</tr>";
         }
       }
 

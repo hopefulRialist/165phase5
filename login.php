@@ -23,7 +23,7 @@ if(isset($_POST["btnLogin"])){
         //redirect to home
         $confirmation="You have succesfully logged in!";
         $_SESSION['loginStatus'] = 1;
-        $current_LoggedIn_UserID = $row['user_id']; //for accessing current user id pero it isnt changing the value of nung nasa global.php. same case with current loginStatus
+       //for accessing current user id pero it isnt changing the value of nung nasa global.php. same case with current loginStatus
       } else {
         $passwordErr="Wrong Password";
       }
@@ -52,12 +52,14 @@ if (isset($_POST["btnCancel"])) {
 </head>
 
 <div class="topnav">
-   <a href='index.php?currentID=$current_LoggedIn_UserID'>Home</a>
+   
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+     <a href="index.php">Home</a>
     <a class="active" href="login.php" onclick="">Log In</a>
     <a href="signup.php" onclick="">Sign Up</a>
-   <?php else: ?>
-     <a href='profile.php?currentID=$current_LoggedIn_UserID'>Profile</a>
+   <?php else:  $current_LoggedIn_UserID = $row['user_id'];?>
+     <a href="index_loggedin.php?currentID=<?php echo $current_LoggedIn_UserID; ?>">Home</a>
+     <a href="profile.php?currentID=<?php echo $current_LoggedIn_UserID; ?>">Profile</a>
      <a href="logout.php" onclick="'">Log Out</a>
   <?php endif; ?>
 </div>
