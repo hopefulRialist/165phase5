@@ -55,7 +55,7 @@ $searchType = $_GET['searchType'];
           $db_name=$row["name"];
           echo"
           <tr>
-            <td> <a href='user_page.php'><h2>$db_name</h2></a> </td>
+            <td> <a href='user_page.php?user_name=$db_name'><h2>$db_name</h2></a> </td>
           </tr>
           ";
         }
@@ -68,7 +68,7 @@ $searchType = $_GET['searchType'];
           $db_book_title=$row["title"];
           echo"
           <tr>
-            <td> <a href='book_page.php'><h2>$db_book_title</h2></a> </td>
+            <td> <a href='book_page.php?book_title=$db_book_title'><h2>$db_book_title</h2></a> </td>
           </tr>
           ";
         }
@@ -81,7 +81,7 @@ $searchType = $_GET['searchType'];
           $db_club_name=$row["club_name"];
           echo"
           <tr>
-            <td> <a href='club_page.php'><h2>$db_club_name</h2></a> </td>
+            <td> <a href='club_page.php?db_club_name=$db_club_name'><h2>$db_club_name</h2></a> </td>
           </tr>
           ";
         }
