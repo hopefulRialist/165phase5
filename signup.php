@@ -1,8 +1,8 @@
 <?php
 //Note during demo for login and sign up. write something on the email first before cancelling. that way the pop up doest get in
 //the way when going back to home page
-include ("global.php");
 session_start();
+include ("global.php");
 include ("connections.php");
 
 $email = $password = $password_repeat = $first_name = $surname = $nationality = "";
@@ -28,8 +28,7 @@ if (isset($_POST["btnSignUp"])) {
 
       // if ($connections->query($insert)===TRUE) {
       $confirmation = "You have succesfully signed up!";
-      $_SESSION['$loginStatus'] = 1;
-      $loginStatus = $_SESSION['loginStatus'];
+      $_SESSION['loginStatus'] = 1;
       $emailErr = $passwordErr = $password_repeatErr = $first_nameErr = $surnameErr = $nationalityErr = "";
       // } else {
       //   echo "Error: " . $insert . "<br>" . $connections->error;
@@ -64,7 +63,7 @@ if(isset($_POST["btnSignUp"])) {
 <div class="topnav">
    <a href="index.php" onclick="location.href=index.php">Home</a>
    <a href="profile.php">Profile</a>
-   <?php if ($loginStatus == 0): ?>
+   <?php if ($_SESSION['loginStatus'] == 0): ?>
      <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="'">Log Out</a>
