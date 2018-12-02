@@ -24,16 +24,16 @@ if (isset($_POST["btnSignUp"])) {
 
       //HASH the pass
       $hashPass = password_hash($password,PASSWORD_DEFAULT); //uses bcrypt
-      $insert = mysqli_query($connections,"INSERT INTO User(first_name, surname, email_address, password, nationality,points) VALUES ('$first_name','$surname','$email','$hashPass','$nationality',0)");
+      $insert = mysqli_query($connections,"INSERT INTO User(first_name, surname, email_address, password, nationality,points,loginStatus) VALUES ('$first_name','$surname','$email','$hashPass','$nationality',0,1)");
 
-      if ($connections->query($insert)===TRUE) {
-        $confirmation = "You have succesfully signed up!";
-        $_SESSION['$loginStatus'] = "Log Out";
-        $loginStatus = $_SESSION['loginStatus'];
-        $emailErr = $passwordErr = $password_repeatErr = $first_nameErr = $surnameErr = $nationalityErr = "";
-      } else {
-        echo "Error: " . $insert . "<br>" . $connections->error;
-      }
+      // if ($connections->query($insert)===TRUE) {
+      $confirmation = "You have succesfully signed up!";
+      $_SESSION['$loginStatus'] = 1;
+      $loginStatus = $_SESSION['loginStatus'];
+      $emailErr = $passwordErr = $password_repeatErr = $first_nameErr = $surnameErr = $nationalityErr = "";
+      // } else {
+      //   echo "Error: " . $insert . "<br>" . $connections->error;
+      // }
       $connections -> close();
 
     }
@@ -64,7 +64,7 @@ if(isset($_POST["btnSignUp"])) {
 <div class="topnav">
    <a href="index.php" onclick="location.href=index.php">Home</a>
    <a href="profile.php">Profile</a>
-   <?php if ($loginStatus == "Log In"): ?>
+   <?php if ($loginStatus == 0): ?>
      <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="'">Log Out</a>

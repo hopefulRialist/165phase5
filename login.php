@@ -23,6 +23,7 @@ if(isset($_POST["btnLogin"])){
       if (password_verify($password,$row['password'])) {
         //redirect to home
         $confirmation="You have succesfully logged in!";
+        $_SESSION['loginStatus'] = 1;
         $current_LoggedIn_UserID = $row['user_id']; //for accessing current user id pero it isnt changing the value of nung nasa global.php. same case with current loginStatus
         // $_SESSION['$loginStatus'] = "Log Out";
         // $loginStatus = $_SESSION['loginStatus'];
@@ -56,7 +57,7 @@ if (isset($_POST["btnCancel"])) {
 <div class="topnav">
    <a href="index.php" onclick="location.href='index.php'">Home</a>
    <a href="profile.php">Profile</a>
-   <?php if ($loginStatus == "Log In"): ?>
+   <?php if ($loginStatus == 0): ?>
      <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="'">Log Out</a>

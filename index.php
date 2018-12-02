@@ -14,7 +14,6 @@ session_start();
 include ("connections.php");
 $searchTerm = $searchType = "";
 $searchTermErr= $searchTypeErr = "";
-$loginStatus = $_SESSION['loginStatus'];
 
 if (isset($_POST["btnSearch"])) { #if search button was pushed
   if (empty($_POST["searchTerm"])){ #if there was no search term
@@ -48,7 +47,7 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
 <div class="topnav">
    <a class="active" href="#home">Home</a>
    <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ($loginStatus == "Log In"): ?>
+   <?php if ($loginStatus == 0): ?>
      <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="">Log Out</a>

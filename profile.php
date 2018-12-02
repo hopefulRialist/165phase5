@@ -1,8 +1,6 @@
 <?php
   include ("global.php");
   session_start();
-  global $loginStatus;
-  $loginStatus=$_SESSION['loginStatus'];
 
 ?>
 
@@ -16,7 +14,7 @@
 <div class="topnav">
    <a href="index.php" onclick="location.href=index.php">Home</a>
    <a class = "active" href="profile.php">Profile</a>
-   <?php if ($loginStatus == "Log In"): ?>
+   <?php if ($loginStatus == 0): ?>
      <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="">Log Out</a>
