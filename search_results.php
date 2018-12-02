@@ -1,0 +1,98 @@
+<?php
+session_start();
+include("connections.php");
+$searchTerm = $_GET['searchTerm'];
+$searchType = $_GET['searchType'];
+?>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type = "text/css" rel="stylesheet" href="main.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre" rel="stylesheet">
+</head>
+
+<div class="topnav">
+   <a href="index.php">Home</a>
+   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
+   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+     <a href="login.php" onclick="">Log In</a>
+   <?php else: ?>
+     <a href="logout.php" onclick="">Log Out</a>
+  <?php endif; ?>
+   <a href="signup.php" onclick="">Sign Up</a>
+</div>
+
+<table border="0" width="100%">
+<tr>
+		<td colspan="7"><hr></td>
+
+	</tr>
+
+	<tr>
+    <?php if ($searchType == "Person"): ?>
+        <td><b><p>Name</p></b></td>
+    <?php elseif ($searchType == "Book"): ?>
+        <td><b><p>Title</p></b></td>
+    <?php elseif ($searchType == "Club"): ?>
+        <td><b><p>Club</p></b></td>
+    <?php endif;?>
+
+	</tr>
+
+	<tr>
+		<td colspan="7"><hr></td>
+
+	</tr>
+
+  <?php
+
+  if($searchTerm && $searchType) {
+
+      if ($searchType == "Person") { //DONE
+        $query = "SELECT * FROM User WHERE name LIKE '%$searchTerm%'";
+        $name_query = mysqli_query($connections,$query);
+        while ($row=mysqli_fetch_assoc($name_query)) {
+          $db_name=$row["name"];
+          echo"
+          <tr>
+            <td> <a href='user_page.php'><h2>$db_name</h2></a> </td>
+          </tr>
+          ";
+        }
+      }
+
+      elseif ($searchType == "Book") { //DONE
+        $query = "SELECT title FROM Book WHERE title LIKE '%$searchTerm%'";
+        $book_query = mysqli_query($connections,$query);
+        while ($row=mysqli_fetch_assoc($book_query)) {
+          $db_book_title=$row["title"];
+          echo"
+          <tr>
+            <td> <a href='book_page.php'><h2>$db_book_title</h2></a> </td>
+          </tr>
+          ";
+        }
+      }
+
+      elseif ($searchType == "Club") {
+        $query = "SELECT * FROM Club WHERE club_name LIKE '%$searchTerm%'";
+        $club_query = mysqli_query($connections,$query);
+        while ($row=mysqli_fetch_assoc($club_query)) {
+          $db_club_name=$row["club_name"];
+          echo"
+          <tr>
+            <td> <a href='club_page.php'><h2>$db_club_name</h2></a> </td>
+          </tr>
+          ";
+        }
+        if (isset($_POST['btnViewClub'])) {
+
+        }
+      }
+
+  }
+
+
+
+
+  ?>
