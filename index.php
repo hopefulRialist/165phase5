@@ -45,7 +45,7 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
 <div class="topnav">
    <a class="active" href="#home">Home</a>
    <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ($_SESSION['loginStatus'] == 0): ?>
+   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="login.php" onclick="">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="">Log Out</a>

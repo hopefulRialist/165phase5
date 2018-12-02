@@ -62,7 +62,7 @@ if(isset($_POST["btnSignUp"])) {
 <div class="topnav">
    <a href="index.php" onclick="location.href=index.php">Home</a>
    <a href="profile.php">Profile</a>
-   <?php if ($_SESSION['loginStatus'] == 0): ?>
+   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="login.php" onclick="">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="'">Log Out</a>
