@@ -5,7 +5,7 @@ session_start();
 include ("connections.php");
 
 $email = $password = $password_repeat = $name = $nationality = "";
-$emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
+$emailErr = $passwordErr = $password_repeatErr = $nameErr = $nationalityErr = "";
 $confirmation="";
 
 if (isset($_POST["btnSignUp"])) {
@@ -15,22 +15,23 @@ if (isset($_POST["btnSignUp"])) {
   $name = $_POST["name"];
   $nationality = $_POST["nationality"];
 
-  if($email && $password && $password_repeat && $first_name && $surname && $nationality) {
+  if($email && $password && $password_repeat && $name && $nationality) {
     if ($password!= $password_repeat) {
       $password_repeatErr = "Password does not match";
     } else {
 
       //HASH the pass
       $hashPass = password_hash($password,PASSWORD_DEFAULT); //uses bcrypt
-      $insert = mysqli_query($connections,"INSERT INTO User(name email_address, password, nationality,points,loginStatus) VALUES ('$name','$email','$hashPass','$nationality',0,1)");
+      $query = "INSERT INTO User(name, email_address, password, nationality,points) VALUES ('$name','$email','$hashPass','$nationality',0)";
+      $insert = mysqli_query($connections, $query);
 
-      // if ($connections->query($insert)===TRUE) {
-      $confirmation = "You have succesfully signed up!";
-      $_SESSION['loginStatus'] = 1;
-      $emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
-      // } else {
-      //   echo "Error: " . $insert . "<br>" . $connections->error;
-      // }
+      if ($connections->query($query)===TRUE) {
+        $confirmation = "You have succesfully signed up!";
+        $_SESSION['loginStatus'] = 1;
+        $emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
+      } else {
+        echo "Error: " . $insert . "<br>" . $connections->error;
+      }
       $connections -> close();
 
     }

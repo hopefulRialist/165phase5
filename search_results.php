@@ -3,6 +3,7 @@ session_start();
 include("connections.php");
 $searchTerm = $_GET['searchTerm'];
 $searchType = $_GET['searchType'];
+
 ?>
 
 <head>
@@ -52,10 +53,12 @@ $searchType = $_GET['searchType'];
         $query = "SELECT * FROM User WHERE name LIKE '%$searchTerm%'";
         $name_query = mysqli_query($connections,$query);
         while ($row=mysqli_fetch_assoc($name_query)) {
+          $db_id = $row["user_id"];
           $db_name=$row["name"];
           echo"
           <tr>
-            <td> <a href='user_page.php?user_name=$db_name'><h2>$db_name</h2></a> </td>
+            <td> <h2>$db_name</h2>
+            <td> <a href='userview.php?id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>
           </tr>
           ";
         }
@@ -88,6 +91,10 @@ $searchType = $_GET['searchType'];
         if (isset($_POST['btnViewClub'])) {
 
         }
+      }else{
+        echo"<tr>
+         No Results Found
+        </tr>";
       }
 
   }
