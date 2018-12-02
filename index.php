@@ -18,22 +18,30 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
     $searchTermErr = "Search Term required";
   } else {  #if there was a term put it into searchTerm variable
     $searchTerm = $_POST["searchTerm"];
+    $_SESSION['searchTerm'] = $searchTerm;
   }
-}
-  if (isset($_POST["btnSearch"])) { #if search button was pushed
-    if (empty($_POST["searchType"])){
-      $searchTypeErr = "Filter required";
-    } else {
-      $searchType = $_POST["searchType"];
-    }
+
+  if (empty($_POST["searchType"])){
+    $searchTypeErr = "Filter required";
+  } else {
+    $searchType = $_POST["searchType"];
+    $_SESSION['$searchType'] = $searchType;
   }
 
   if($searchTerm && $searchType) {
     $c_searchTerm = strlen($searchTerm);
     if ($c_searchTerm < 2) {
       $searchTermErr = "Search Term has too few characters";
+    } else {
+      echo "<script>window.location.href='search_results.php?searchTerm=$searchTerm&searchType=$searchType'</script>";
+      //header("Location: search_results.php");
     }
+
   }
+}
+
+
+
 
 ?>
 <head>
@@ -70,7 +78,7 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
       <br>
       <span class = "error"><?php echo $searchTypeErr; ?> </span>
       <br>
-      <span class = "error"><?php echo $searchTermErr; ?> </span>
+      <span class = "error"><?php echo $searchTypeErr; ?> </span>
       <br>
       <input type = "submit" name="btnSearch" value="Search">
   </form>

@@ -4,16 +4,15 @@
 session_start();
 include ("connections.php");
 
-$email = $password = $password_repeat = $first_name = $surname = $nationality = "";
-$emailErr = $passwordErr = $password_repeatErr = $first_nameErr = $surnameErr = $nationalityErr = "";
+$email = $password = $password_repeat = $name = $nationality = "";
+$emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
 $confirmation="";
 
 if (isset($_POST["btnSignUp"])) {
   $email = $_POST["email"];
   $password = $_POST["password"];
   $password_repeat = $_POST["password_repeat"];
-  $first_name = $_POST["first_name"];
-  $surname = $_POST ["surname"];
+  $name = $_POST["name"];
   $nationality = $_POST["nationality"];
 
   if($email && $password && $password_repeat && $first_name && $surname && $nationality) {
@@ -23,12 +22,12 @@ if (isset($_POST["btnSignUp"])) {
 
       //HASH the pass
       $hashPass = password_hash($password,PASSWORD_DEFAULT); //uses bcrypt
-      $insert = mysqli_query($connections,"INSERT INTO User(first_name, surname, email_address, password, nationality,points,loginStatus) VALUES ('$first_name','$surname','$email','$hashPass','$nationality',0,1)");
+      $insert = mysqli_query($connections,"INSERT INTO User(name email_address, password, nationality,points,loginStatus) VALUES ('$name','$email','$hashPass','$nationality',0,1)");
 
       // if ($connections->query($insert)===TRUE) {
       $confirmation = "You have succesfully signed up!";
       $_SESSION['loginStatus'] = 1;
-      $emailErr = $passwordErr = $password_repeatErr = $first_nameErr = $surnameErr = $nationalityErr = "";
+      $emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
       // } else {
       //   echo "Error: " . $insert . "<br>" . $connections->error;
       // }
@@ -85,9 +84,7 @@ if(isset($_POST["btnSignUp"])) {
       <br>
       <input type="password" placeholder="Repeat Password" name="password_repeat" required autocomplete="new-password">
       <br>
-      <input type="text" placeholder="First Name" name="first_name" required>
-      <br>
-      <input type="text" placeholder="Surname" name="surname" required>
+      <input type="text" placeholder="Full Name" name="name" required>
       <br>
       <input type="text" placeholder="Nationality" name="nationality" required>
       <br>
@@ -99,8 +96,7 @@ if(isset($_POST["btnSignUp"])) {
       <span class = "confirmed"> <?php echo $confirmation; ?></span><br>
       <span class = "error"> <?php echo $emailErr; ?></span><br>
       <span class = "error"> <?php echo $password_repeatErr; ?></span><br>
-      <span class = "error"> <?php echo $first_nameErr; ?></span><br>
-      <span class = "error"> <?php echo $surnameErr; ?></span><br>
+      <span class = "error"> <?php echo $nameErr; ?></span><br>
       <span class = "error"> <?php echo $nationalityErr; ?></span><br>
 
     </div>
