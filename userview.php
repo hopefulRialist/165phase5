@@ -57,14 +57,38 @@
     <thead>
       <tr class="w3-light-grey">
         <th>Club Name</th>
-        <th>Club Status</th>
+        <th>Club Description</th>
         <th>Date Joined</th>
       </tr>
     </thead>
   <?php
+  	$clubs = null;
+  	$query = "SELECT * from Club, User, member_of where (User.user_id = '$userID' and 
+  	member_of.user_id = user.user_id) and (Club.club_id = member_of.club_id)";
+  	$clubs = mysqli_query($connections,$query);
 
-  	$query = "SELECT ";
+  	if(mysqli_num_rows($clubs) > 0){
+  		while ($r=mysqli_fetch_assoc($clubs)) {
+  			$cN = $r['club_name'];
+  			$stat = $r['description'];
+  			$date_joined = $r['date_joined'];
+  			echo "<tr>
 
+  			<td> 
+  			$cN
+  			</td>
+  			<td> 
+  			$stat
+  			</td>
+  			<td> 
+  			$date_joined
+  			</td>
+
+  			</tr>";
+  		}	
+  	}else{
+  		echo "No Club Memberships";
+  	}
 
   ?>
   </table>
@@ -74,6 +98,49 @@
 
 <div id="Books" class="tabs" style="display:none">
   <h2></h2>
+  <div class="w3-container">
+  <h2>Books Read</h2>
+
+  <table class="w3-table-all w3-hoverable">
+    <thead>
+      <tr class="w3-light-grey">
+        <th>Book Name</th>
+        <th>Book Summary</th>
+        <th>Date Finished</th>
+      </tr>
+    </thead>
+  <?php
+  	$books = null;
+  	$query = "SELECT * from Book, User, has_read where (User.user_id = '$userID' and 
+  	has_read.user_id = user.user_id) and (Book.book_id = has_read.book_id)";
+  	$books = mysqli_query($connections,$query);
+
+  	if(mysqli_num_rows($books) > 0){
+  		while ($r=mysqli_fetch_assoc($books)) {
+  			$cN = $r['title'];
+  			$stat = $r['summary'];
+  			$date_joined = $r['date_finished'];
+  			echo "<tr>
+
+  			<td> 
+  			$cN
+  			</td>
+  			<td> 
+  			$stat
+  			</td>
+  			<td> 
+  			$date_joined
+  			</td>
+
+  			</tr>";
+  		}	
+  	}else{
+  		echo "No Books Read";
+  	}
+
+  ?>
+  </table>
+</div>
   <p></p>
 </div>
 
