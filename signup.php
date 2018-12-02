@@ -2,7 +2,6 @@
 //Note during demo for login and sign up. write something on the email first before cancelling. that way the pop up doest get in
 //the way when going back to home page
 session_start();
-include ("global.php");
 include ("connections.php");
 
 $email = $password = $password_repeat = $first_name = $surname = $nationality = "";

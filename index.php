@@ -9,7 +9,6 @@ VARIABLE ACCESS: https://stackoverflow.com/questions/18588972/how-to-access-a-va
 STILL NEED VAR ACCESS AND HOW TO MODIFY IT FROM ANOTHER FILE
 */
 session_start();
-include ("global.php");
 include ("connections.php");
 $searchTerm = $searchType = "";
 $searchTermErr= $searchTypeErr = "";
