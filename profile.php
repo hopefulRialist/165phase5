@@ -21,3 +21,11 @@
   <?php endif; ?>
    <a href="signup.php" onclick="document.getElementById('id01').style.display='block'">Sign Up</a>
 </div>
+
+<center>
+  <?php if ($_SESSION['loginStatus'] == 0): ?>
+    <h1>You are not logged in</h1>
+  <?php else: ?>
+    <h1>Welcome *insert user name here*</h1>
+  <?php endif; ?>
+</center>
