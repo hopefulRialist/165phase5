@@ -1,6 +1,6 @@
 <?php
   session_start();
-
+  $userID = $_GET['currentID'];
 ?>
 
 <head>
@@ -11,14 +11,15 @@
 
 
 <div class="topnav">
-   <a href="index.php" onclick="location.href=index.php">Home</a>
+   <a href="index.php?currentID=$userID">Home</a>
    <a class = "active" href="profile.php">Profile</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="login.php" onclick="">Log In</a>
+     <a href="signup.php" onclick="">Sign Up</a>
    <?php else: ?>
      <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
+   
 </div>
 
 <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>

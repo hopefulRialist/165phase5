@@ -23,7 +23,6 @@ if (isset($_POST["btnSignUp"])) {
       //HASH the pass
       $hashPass = password_hash($password,PASSWORD_DEFAULT); //uses bcrypt
       $query = "INSERT INTO User(name, email_address, password, nationality,points) VALUES ('$name','$email','$hashPass','$nationality',0)";
-      $insert = mysqli_query($connections, $query);
 
       if ($connections->query($query)===TRUE) {
         $confirmation = "You have succesfully signed up!";
@@ -61,7 +60,6 @@ if(isset($_POST["btnSignUp"])) {
 <!-- The Modal (contains the Sign Up form) -->
 <div class="topnav">
    <a href="index.php" onclick="location.href=index.php">Home</a>
-   <a href="profile.php">Profile</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
      <a href="login.php" onclick="">Log In</a>
    <?php else: ?>

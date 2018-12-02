@@ -33,7 +33,11 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
     if ($c_searchTerm < 2) {
       $searchTermErr = "Search Term has too few characters";
     } else {
-      echo "<script>window.location.href='search_results.php?searchTerm=$searchTerm&searchType=$searchType'</script>";
+      if(isset($_GET['currentID'])){ $currentID = $_GET['currentID'];
+        echo "<script>window.location.href='search_results.php?searchTerm=$searchTerm&searchType=$searchType&currentID=$currentID'</script>";
+      }else{ 
+        echo "<script>window.location.href='search_results.php?searchTerm=$searchTerm&searchType=$searchType'</script>";
+      }
       //header("Location: search_results.php");
     }
 
@@ -52,13 +56,14 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
 
 <div class="topnav">
    <a class="active" href="#home">Home</a>
-   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
+    <a href="login.php" onclick="">Log In</a>
+    <a href="signup.php" onclick="">Sign Up</a>
+   <?php else: $currentID = $_GET['currentID']; ?>
+    <a href="profile.php?currentID=$currentID">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
+ 
 </div>
 
 <br><br>
@@ -76,7 +81,7 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
         <option name = "searchType" <?php if ($searchType =="Club") { echo "selected";}?> value="Club">Club</option>
       </select>
       <br>
-      <span class = "error"><?php echo $searchTypeErr; ?> </span>
+      <span class = "error"><?php echo $searchTermErr; ?> </span>
       <br>
       <span class = "error"><?php echo $searchTypeErr; ?> </span>
       <br>

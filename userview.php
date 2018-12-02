@@ -5,6 +5,7 @@
   $searchType = $_GET['searchType'];
   $userName = $_GET['user_name'];
   $userID = $_GET['id'];
+  $currID = $_GET['currentID'];
 ?>
 
 <head>
@@ -14,15 +15,14 @@
 </head>
 
 <div class="topnav">
-   <a href='search_results.php?searchType=$searchType&searchTerm=$searchTerm'>Back</a>
-   <a href="index.php" onclick="location.href=index.php">Home</a>
-   <a href="profile.php" onclick="location.href=profile.php">Profile</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+     <a href="signup.php" onclick="">Sign Up</a>
      <a href="login.php" onclick="">Log In</a>
    <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
+    <a href="profile.php?currentID=$currID">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
+
 </div>
 
 <html>

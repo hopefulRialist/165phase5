@@ -52,14 +52,14 @@ if (isset($_POST["btnCancel"])) {
 </head>
 
 <div class="topnav">
-   <a href="index.php" onclick="location.href='index.php'">Home</a>
-   <a href="profile.php">Profile</a>
+   <a href='index.php?currentID=$current_LoggedIn_UserID'>Home</a>
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
+    <a class="active" href="login.php" onclick="">Log In</a>
+    <a href="signup.php" onclick="">Sign Up</a>
    <?php else: ?>
+     <a href='profile.php?currentID=$current_LoggedIn_UserID'>Profile</a>
      <a href="logout.php" onclick="'">Log Out</a>
   <?php endif; ?>
-  <a href="signup.php" onclick="">Sign Up</a>
 </div>
 
 
