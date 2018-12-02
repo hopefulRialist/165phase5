@@ -1,7 +1,20 @@
 <?php
+/*
+search result page*/
+/*
+signup keeps just showing  error 1
+LOGOUT
+PHP IF STATEMENT: https://stackoverflow.com/questions/722379/can-html-be-embedded-inside-php-if-statement
+VARIABLE ACCESS: https://stackoverflow.com/questions/18588972/how-to-access-a-variable-across-two-files
+STILL NEED VAR ACCESS AND HOW TO MODIFY IT FROM ANOTHER FILE
+*/
+include ("global.php");
+session_start();
+
+include ("connections.php");
 $searchTerm = $searchType = "";
 $searchTermErr= $searchTypeErr = "";
-$loginStatus = "Log In"; #change it to log out once may naka log in na
+$loginStatus = $_SESSION['loginStatus'];
 
 if (isset($_POST["btnSearch"])) { #if search button was pushed
   if (empty($_POST["searchTerm"])){ #if there was no search term
@@ -28,20 +41,27 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
 ?>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="main.css">
+  <link type = "text/css" rel="stylesheet" href="main.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre" rel="stylesheet">
 </head>
-
 
 <div class="topnav">
    <a class="active" href="#home">Home</a>
-   <a href="profile.php">Profile</a>
-   <a href="login.php" onclick="document.getElementById('id01').style.display='block'"><?php echo $loginStatus?></a>
+   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
+   <?php if ($loginStatus == "Log In"): ?>
+     <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
+   <?php else: ?>
+     <a href="logout.php" onclick="">Log Out</a>
+  <?php endif; ?>
    <a href="signup.php" onclick="document.getElementById('id01').style.display='block'">Sign Up</a>
 </div>
 
-<br><br><br><br><br><br><br><br>
+<br><br>
+
 
 <center>
+  <img src="open-book.png">
+  <br><br><br>
   <form method = "POST">
       <input type="text" name="searchTerm" placeholder="Search" value="<?php echo $searchTerm; ?>">
       <select name = "searchType">

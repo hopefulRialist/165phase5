@@ -1,11 +1,25 @@
+/* http://colorpalettes.net/color-palette-333/ */
+.confirmed {
+  color:Green;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+}
 .error {
   color:Red;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
 }
-
+h1 {
+    font-family: 'Proza Libre', sans-serif;
+}
+p{
+  font-family: 'Open Sans', sans-serif;
+}
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #333;
+    background-color: #024cb5;
     overflow: hidden;
+    font-family: 'Proza Libre', sans-serif;
 }
 
 /* Style the links inside the navigation bar */
@@ -16,16 +30,48 @@
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    font-family: 'Proza Libre', sans-serif;
 }
 
 /* Change the color of links on hover */
 .topnav a:hover {
-    background-color: #ddd;
+    background-color: #9dc0fa;
     color: black;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-    background-color: #4CAF50;
-    color: white;
+    background-color:#e8dacd;
+    color: #00134e;
 }
+input[type=submit] {
+  height: 30px;
+  width:100px;
+  padding: 5px 15px 5px 15px;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  text-align: center;
+}
+
+input{
+  height: 25px;
+  width:200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+select {
+  height: 30px;
+  width:60px;
+  font-family: 'Open Sans', sans-serif;
+}
+input:focus {
+    border: 2px solid #1f86fc;
+}
+
+
+
+
+/************/
