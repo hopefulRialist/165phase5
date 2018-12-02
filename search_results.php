@@ -24,29 +24,22 @@ $searchType = $_GET['searchType'];
   <?php endif; ?>
   
 </div>
+<link rel="stylesheet" href="w3.css">
 
-<table border="0" width="100%">
-<tr>
-		<td colspan="7"><hr></td>
+<div class="w3-container">
+<table class="w3-table-all w3-hoverable">
 
-	</tr>
-
-	<tr>
+	<thead>
     <?php if ($searchType == "Person"): ?>
-        <td><b><p>Name</p></b></td>
+        <td><h2>Name<h2></td>
     <?php elseif ($searchType == "Book"): ?>
-        <td><b><p>Title</p></b></td>
+        <td><h2>Title<h2></td>
     <?php elseif ($searchType == "Club"): ?>
-        <td><b><p>Club</p></b></td>
+        <td><h2>Club<h2></td>
     <?php endif;?>
 
-	</tr>
-
-	<tr>
-		<td colspan="7"><hr></td>
-
-	</tr>
-
+	</thead>
+  <tbody>
   <?php
 
   if($searchTerm && $searchType) {
@@ -110,3 +103,6 @@ $searchType = $_GET['searchType'];
 
 
   ?>
+</tbody>
+</table>
+</div>
