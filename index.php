@@ -47,11 +47,11 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
    <a class="active" href="#home">Home</a>
    <a href="profile.php" onclick="location.href = profile.php">Profile</a>
    <?php if ($_SESSION['loginStatus'] == 0): ?>
-     <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
+     <a href="login.php" onclick="">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-   <a href="signup.php" onclick="document.getElementById('id01').style.display='block'">Sign Up</a>
+   <a href="signup.php" onclick="">Sign Up</a>
 </div>
 
 <br><br>

@@ -64,11 +64,11 @@ if(isset($_POST["btnSignUp"])) {
    <a href="index.php" onclick="location.href=index.php">Home</a>
    <a href="profile.php">Profile</a>
    <?php if ($_SESSION['loginStatus'] == 0): ?>
-     <a href="login.php" onclick="document.getElementById('id01').style.display='block'">Log In</a>
+     <a href="login.php" onclick="">Log In</a>
    <?php else: ?>
      <a href="logout.php" onclick="'">Log Out</a>
   <?php endif; ?>
-  <a class="active" href="signup.php" onclick="document.getElementById('id01').style.display='block'">Sign Up</a>
+  <a class="active" href="signup.php" onclick="">Sign Up</a>
 </div>
 
 
