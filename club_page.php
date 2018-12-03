@@ -120,11 +120,11 @@ $clubID = $club['club_id'];
    if (isset($_POST['delete'])) {
     $query_delete = "DELETE FROM Club WHERE club_id = $clubID";
     $DELETE = mysqli_query($connections,$query_delete);
-    echo "<h1>$club_name Deleted </h1>"
+    echo "<h1>$club_name Deleted </h1>";
     //echo "<script>window.location.href='index.php'</script>"; //href back to hom
   }
 
-  $meet_query = "SELECT * FROM MEETING WHERE clubID= $clubID";
+  $meet_query = "SELECT * FROM MEETING WHERE club_id= $clubID";
   $rowMeet = mysqli_query($connections,$meet_query);
 
   if (mysqli_num_rows($rowMeet)>0) {
