@@ -2,6 +2,10 @@
   include ("connections.php"); 
   session_start();
   $userID = $_GET['currentID'];
+  if (isset($_SESSION["user_id"])) {
+  $user_id=$_SESSION["user_id"];
+
+}
 ?>
 
 <head>

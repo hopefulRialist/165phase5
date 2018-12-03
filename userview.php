@@ -5,6 +5,11 @@
   $searchType = $_GET['searchType'];
   $userName = $_GET['user_name'];
   $userID = $_GET['id'];
+  if (isset($_SESSION["user_id"])) {
+ 
+  $user_id=$_SESSION["user_id"];
+
+}
 
 ?>
 

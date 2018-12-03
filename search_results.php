@@ -3,6 +3,11 @@ session_start();
 include("connections.php");
 $searchTerm = $_GET['searchTerm'];
 $searchType = $_GET['searchType'];
+if (isset($_SESSION["user_id"])) {
+
+  $user_id=$_SESSION["user_id"];
+
+}
 ?>
 
 <head>

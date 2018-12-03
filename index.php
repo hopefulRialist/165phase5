@@ -12,6 +12,11 @@ session_start();
 include ("connections.php");
 $searchTerm = $searchType = "";
 $searchTermErr= $searchTypeErr = "";
+if (isset($_SESSION["user_id"])) {
+  
+  $user_id=$_SESSION["user_id"];
+
+}
 
 if (isset($_POST["btnSearch"])) { #if search button was pushed
   if (empty($_POST["searchTerm"])){ #if there was no search term

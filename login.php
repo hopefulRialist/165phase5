@@ -5,6 +5,11 @@
 //the way when going back to home page
 session_start();
 include ("connections.php");
+if (isset($_SESSION["user_id"])) {
+  include("connections.php");
+  $user_id=$_SESSION["user_id"];
+
+}
 $email=$password="";
 $emailErr=$passwordErr="";
 $confirmation="";

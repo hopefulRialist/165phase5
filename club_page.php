@@ -1,7 +1,11 @@
 <?php
 session_start();
 include ("connections.php");
+if (isset($_SESSION["user_id"])) {
+  
+  $user_id=$_SESSION["user_id"];
 
+}
 $club_name = $_GET['db_club_name'];
 ?>
 
