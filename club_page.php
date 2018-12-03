@@ -110,7 +110,7 @@ $clubID = $club['club_id'];
           $row = mysqli_query($connections,$query);
           $bookFetched = mysqli_fetch_assoc($row);
           $bookID = $bookFetched['book_id'];
-          $query1 = "INSERT INTO MEETING (clubID,bookID,dateTOMEET,timeTOMEET,location,mTitle,mDescription) VALUES ('$clubID','$bookID','$date', '$time', '$loc','$book', '$desc')";
+          $query1 = "INSERT INTO MEETING (club_id,book_id,dateTOMEET,timeTOMEET,location,mTitle,mDescription) VALUES ('$clubID','$bookID','$date', '$time', '$loc','$book', '$desc')";
           $insert = mysqli_query($connections,$query1);
           $added = "Meeting Added";
           //need to reprint for it to display to current meeting list
