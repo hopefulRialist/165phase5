@@ -75,9 +75,42 @@
         <th>Club Name</th>
         <th>Club Description</th>
         <th>Date Joined</th>
+        <th></th>
       </tr>
     </thead>
-  
+    <tbody>
+    <?php $clubs = null;
+      $query = "SELECT * from Club, User, MEMBER_OF where (User.user_id = '$userID' and 
+      MEMBER_OF.user_id = User.user_id) and (Club.club_id = MEMBER_OF.club_id)";
+      $clubs = mysqli_query($connections,$query);
+      if($clubs != null){
+      if(mysqli_num_rows($clubs) > 0){
+        while ($r=mysqli_fetch_assoc($clubs)) {
+          $cN = $r['club_name'];
+          $stat = $r['description'];
+          $date_joined = $r['date_joined'];
+          echo "<tr>
+
+          <td> 
+          $cN
+          </td>
+          <td> 
+          $stat
+          </td>
+          <td> 
+          $date_joined
+          </td>
+          <td>
+          <a href='club_page.php?db_club_name=$cN&currentID=$userID'>View</a>
+          </td>
+
+          </tr>";
+        } 
+      }}else{
+        echo "No Club Memberships";
+      }
+    ?>
+    </tbody>
   </table>
 </div>
   <p></p> 
@@ -85,17 +118,61 @@
 
 <div id="Books" class="tabs" style="display:none">
   <h2></h2>
-  <div class="w3-container">
-  <h2>Books Read</h2>
 
+  <?php
+      if(isset($_POST['addList'])){
+        echo "<script>window.location.href='add-to-hasread.php?currentID=$userID'</script>";
+      }
+  ?>
+  <div class="w3-container">
+  <h2>Books Read<form method="POST">
+    <button class="w3-button w3-round w3-blue w3-small" name='addList'>Add to Your List</button></form></h2>
+  
   <table class="w3-table-all w3-hoverable">
     <thead>
       <tr class="w3-light-grey">
         <th>Book Name</th>
         <th>Book Summary</th>
         <th>Date Finished</th>
+        <th></th>
       </tr>
     </thead>
+    <tbody>
+
+    <?php
+    $books = null;
+    $query = "SELECT * from Book, User, HAS_READ where (User.user_id = '$userID' and 
+    HAS_READ.userID = User.user_id) and (Book.book_id = HAS_READ.bookID)";
+    $books = mysqli_query($connections,$query);
+    if($books != null){
+    if(mysqli_num_rows($books) > 0){
+      while ($r=mysqli_fetch_assoc($books)) {
+        $cN = $r['title'];
+        $stat = $r['summary'];
+        $date_joined = $r['dateFINISHED'];
+        echo "<tr>
+
+        <td> 
+        $cN
+        </td>
+        <td> 
+        $stat
+        </td>
+        <td> 
+        $date_joined
+        </td>
+        <td>
+        <a href='book_page.php?book_title=$cN&currentID=$userID'>View</a>
+        </td>
+
+        </tr>";
+      } 
+    }}else{
+
+      echo "<br>No Books Read";
+    }
+  ?>
+    </tbody>
   </table>
 </div>
   <p></p>
@@ -111,5 +188,7 @@ function openTab(tab) {
     document.getElementById(tab).style.display = "block";  
 }
 </script>
+
+
 </html>
 <?php endif; ?>
