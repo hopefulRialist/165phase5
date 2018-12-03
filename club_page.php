@@ -8,8 +8,13 @@ $row = mysqli_query($connections,$query);
 $club=mysqli_fetch_assoc($row);
 $creationdate = $club['date_created'];
 $clubDesc  = $club['description'];
-$added="";
+$added=$bookErr = "";
 $clubID = $club['club_id'];
+
+$user_id = $_GET['currentID'];
+
+if(isset($_POST['']))
+
 ?>
 
 <head>
@@ -40,20 +45,21 @@ $clubID = $club['club_id'];
 <p><?php echo "$clubDesc";?></p>
 <br>
 <form method="POST">
+  <input type = "submit" name="join"  value = 'Join Club'>
   <input type = "submit" name='meeting' value='Add Meeting'>
   <input type="submit" name = 'delete' value='Delete Club'>
 </form>
 
 <?php if(isset($_POST['meeting'])): ?>
   <form method = "POST">
-    <input type='date' name='date' value='Date'>
-    <input type='time' name='time' value='Time'>
+    <input type='date' name='date' value='Date' required>
+    <input type='time' name='time' value='Time' required>
     <br>
-    <input type = "text" name="location" placeholder="Location">
+    <input type = "text" name="location" placeholder="Location" required>
     <br>
-    <input type = "text" name='book' placeholder="Book to be discussed" >
+    <input type = "text" name='book' placeholder="Book to be discussed" required>
     <br>
-    <input type = "text" name ='mDesc' placeholder='Meeting Description'>
+    <input type = "text" name ='mDesc' placeholder='Meeting Description'required>
     <br>
       <input type="submit" name='AddMeeting' value='Submit'>
   </form>
@@ -62,6 +68,7 @@ $clubID = $club['club_id'];
 
 
 <span class='confirmed'><?php echo $added; ?> </span>
+<span class='error'><?php echo $bookErr; ?> </span>
 
 <table border="0" width="100%">
 <tr>
@@ -71,14 +78,11 @@ $clubID = $club['club_id'];
 
 	<tr>
         <td><b><p>Book</p></b></td>
-
         <td><b><p>Meeting</p></b></td>
-
         <td><b><p>Date</p></b></td>
-
         <td><b><p>Time</p></b></td>
-
         <td><b><p>Location</p></b></td>
+        <td><b><p>Edit Meeting</p></b></td>
 	</tr>
 
 	<tr>
@@ -93,7 +97,7 @@ $clubID = $club['club_id'];
   $club=mysqli_fetch_assoc($row);
   $creationdate = $club['date_created'];
   $clubDesc  = $club['description'];
-  $added="";
+  $added=$bookErr = "";
   $clubID = $club['club_id'];
   $date = $time = $location = $book = $mDesc = "";
 
@@ -108,12 +112,16 @@ $clubID = $club['club_id'];
         if ($date && $time && $loc && $book && $desc) {
           $query = "SELECT * from Book WHERE title LIKE '%$book%'";
           $row = mysqli_query($connections,$query);
-          $bookFetched = mysqli_fetch_assoc($row);
-          $bookID = $bookFetched['book_id'];
-          $query1 = "INSERT INTO MEETING (club_id,book_id,dateTOMEET,timeTOMEET,location,mTitle,mDescription) VALUES ('$clubID','$bookID','$date', '$time', '$loc','$book', '$desc')";
-          $insert = mysqli_query($connections,$query1);
-          $added = "Meeting Added";
-          //need to reprint for it to display to current meeting list
+          if (mysqli_num_rows($row) > 0) {
+
+              $bookFetched = mysqli_fetch_assoc($row);
+              $bookID = $bookFetched['book_id'];
+              $query1 = "INSERT INTO MEETING (club_id,book_id,dateTOMEET,timeTOMEET,location,mTitle,mDescription) VALUES ('$clubID','$bookID','$date', '$time', '$loc','$book', '$desc')";
+              $insert = mysqli_query($connections,$query1);
+              $added = "Meeting Added";
+          } else {
+              $bookErr = "No book exists. Please check Title";
+          }
       }
     }
 
@@ -129,16 +137,17 @@ $clubID = $club['club_id'];
 
   if (mysqli_num_rows($rowMeet)>0) {
     while ($meeting = mysqli_fetch_assoc($rowMeet)){
-      $bt = $meeting['book_title'];
-      $md = $meeting['meeting_description'];
-      $dtm = $meeting['date_to_meet'];
-      $ttm = $meeting['time_to_meet'];
+      $bt = $meeting['mTitle'];
+      $md = $meeting['mDescription'];
+      $dtm = $meeting['dateTOMEET'];
+      $ttm = $meeting['timeTOMEET'];
       $loc = $meeting['location'];
       echo "<tr><td>$bt</td>
       <td>$md</td>
       <td>$dtm</td>
       <td>$ttm</td>
-      <td>$loc</td></tr>";
+      <td>$loc</td>
+      <td><a href='updateMeeting.php?club_id=$clubID&title=$bt&desc=$md&date=$dtm&time=$ttm&place=$loc'>Update</a> | <a href = 'deleteMeeting.php?club_id=$clubID&date=$dtm&title=$bt'>Delete</a> </td></tr>";
     }
   }
 
