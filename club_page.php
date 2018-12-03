@@ -8,12 +8,30 @@ $row = mysqli_query($connections,$query);
 $club=mysqli_fetch_assoc($row);
 $creationdate = $club['date_created'];
 $clubDesc  = $club['description'];
-$added=$bookErr = "";
+$added=$bookErr = $joined = $left = $notLoggedIn =  "";
 $clubID = $club['club_id'];
 
-$user_id = $_GET['currentID'];
+if((isset($_SESSION['loginStatus']))) {
+  $user_id = $_GET['currentID'];
 
-if(isset($_POST['']))
+  if(isset($_POST['join'])) {
+    $query = "INSERT INTO MEMBER_OF (user_id, club_id, date_joined) VALUES ('$user_id', '$clubID', 'date_create()->format('Y-m-d H:i:s')')";
+    $insert = mysqli_query($connections,$query);
+    $joined = "You joined the club!";
+  }
+
+  if (isset($_POST['leave'])) {
+    $query = "DELETE FROM MEMBER_OF WHERE user_id = $user_id";
+    $delete = mysqli_query($connections,$query);
+    $left = "You have left this club";
+  }
+} else {
+  if(isset($_POST['join']) || isset($_POST['leave']) ) {
+    $notLoggedIn = "You're not logged in!";
+  }
+}
+
+
 
 ?>
 
@@ -46,8 +64,11 @@ if(isset($_POST['']))
 <br>
 <form method="POST">
   <input type = "submit" name="join"  value = 'Join Club'>
+  <input type = "submit" name="leave"  value = 'Leave Club'>
+  <br>
   <input type = "submit" name='meeting' value='Add Meeting'>
   <input type="submit" name = 'delete' value='Delete Club'>
+  <br>
 </form>
 
 <?php if(isset($_POST['meeting'])): ?>
@@ -66,9 +87,16 @@ if(isset($_POST['']))
 
 <?php endif;?>
 
-
+<span class='confirmed'><?php echo $joined; ?> </span>
+<span class='error'><?php echo $left; ?> </span>
+<br>
 <span class='confirmed'><?php echo $added; ?> </span>
 <span class='error'><?php echo $bookErr; ?> </span>
+<br>
+<span class='error'><?php echo $notLoggedIn; ?> </span>
+
+<br>
+
 
 <table border="0" width="100%">
 <tr>
