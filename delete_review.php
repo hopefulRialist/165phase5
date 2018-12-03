@@ -4,24 +4,20 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre" rel="stylesheet">
 </head>
 
+<?php $user_id = $_GET['currentID']; 
+    $chosen_title = $_GET['book_title'];?>
+
 <div class="topnav">
-   <a href="index.php">Home</a>
-   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
-  <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
+ 
+    <a href="book_page_edit.php?currentID=<?php echo $user_id ?>&book_title=<?php echo $chosen_title; ?>">Back</a>
+    <a href="profile.php?currentID=<?php echo $user_id ?>" onclick="location.href = profile.php">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
+
 </div>
 <center>
 <?php
 session_start();
 include("connections.php");
-if (isset($_SESSION["user_id"])) {
-  $user_id=$_SESSION["user_id"];
-  $chosen_title=$_GET["book_title"];
-  }
 ?>
 
 <?php
@@ -37,7 +33,7 @@ if($check_get_record>0){
 
   if(isset($_POST["btnDelete"])){
     mysqli_query($connections,"DELETE FROM reviews WHERE user_id='$user_id' AND book_id='$book_id'");
-     echo "<script>window.location.href='book_page.php?book_title=$chosen_title&user_id=$user_id'</script>";
+     echo "<script>window.location.href='book_page.php?book_title=$chosen_title&currentID=$user_id'</script>";
   }
 
 
@@ -51,7 +47,7 @@ if($check_get_record>0){
   <br>
   <input type="submit" name="btnDelete" value="Delete">
   &nbsp;
-  <a href='book_page_edit.php?book_title=<?php echo $chosen_title?>&user_id=<?php echo $user_id ?>'><b>Cancel</b></a>
+  <a href='book_page_edit.php?book_title=<?php echo $chosen_title?>&currentID=<?php echo $user_id ?>'><b>Cancel</b></a>
 
 
 <?php

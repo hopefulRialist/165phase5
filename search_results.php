@@ -74,11 +74,20 @@ if (isset($_SESSION["user_id"])) {
         $book_query = mysqli_query($connections,$query);
         while ($row=mysqli_fetch_assoc($book_query)) {
           $db_book_title=$row["title"];
-          echo"
-          <tr>
-            <td> <a href='book_page.php?book_title=$db_book_title'><h2>$db_book_title</h2></a> </td>
-          </tr>
-          ";
+          if((!isset($_GET['currentID']))):
+                echo"
+                <tr>
+                  <td> <a href='book_page.php?book_title=$db_book_title'><h2>$db_book_title</h2></a> </td>
+                </tr>
+                ";
+          else:
+                $currID = $_GET['currentID'];
+                echo"
+                <tr>
+                  <td> <a href='book_page.php?book_title=$db_book_title&currentID=$currID'><h2>$db_book_title</h2></a> </td>
+                </tr>
+                ";
+          endif;
         }
       }
 
@@ -101,9 +110,6 @@ if (isset($_SESSION["user_id"])) {
                 </tr>
                 ";
           endif;
-        }
-        if (isset($_POST['btnViewClub'])) {
-
         }
       }else{
         echo"<tr>

@@ -26,7 +26,7 @@
 </tr>
 <?php
 	$books = null;
-    $query = "SELECT * from Book, HAS_READ where BOOK.book_id = HAS_READ.bookID and HAS_READ.userID != '$id'";
+    $query = "SELECT * from Book";
     $books = mysqli_query($connections,$query);
     if($books != null){
 	    if(mysqli_num_rows($books) > 0){

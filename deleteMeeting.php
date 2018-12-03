@@ -5,6 +5,7 @@ $del = "";
 $clubID = $_GET['club_id'];
 $date = $_GET['date'];
 $title = $_GET['title'];
+$currID = $_GET['currentID'];
 
 $q = "SELECT book_id from Book WHERE title LIKE '%$title%'";
 $bid = mysqli_query($connections,$q);
@@ -23,7 +24,7 @@ $cn = mysqli_fetch_assoc($clubname_query);
 $club_name = $cn['club_name'];
 
 if (isset($_POST['NOdelete']) || isset($_POST['back'])) {
-  echo "<script>window.location.href ='club_page.php?db_club_name=$club_name'</script>";
+  echo "<script>window.location.href ='club_page.php?currentID=$currID&db_club_name=$club_name'</script>";
 }
 
 ?>
@@ -34,14 +35,8 @@ if (isset($_POST['NOdelete']) || isset($_POST['back'])) {
 </head>
 
 <div class="topnav">
-   <a href="index.php">Home</a>
-   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
+     <a href="profile.php?currentID=<?php echo $currID; ?>" onclick="location.href = profile.php">Profile</a>
      <a href="logout.php" onclick="">Log Out</a>
-  <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
 </div>
 
 <h1>Are you sure you want to delete?</h1>

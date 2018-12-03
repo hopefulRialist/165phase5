@@ -21,9 +21,11 @@
 
 <div class="topnav">
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+     <a href="search_results.php?searchType=<?php echo $searchType; ?>&searchTerm=<?php echo $searchTerm; ?>">Back</a>
      <a href="signup.php" onclick="">Sign Up</a>
      <a href="login.php" onclick="">Log In</a>
    <?php else:  $currID = $_GET['currentID']; ?>
+    <a href="search_results.php?currentID=<?php echo $currID; ?>&searchType=<?php echo $searchType; ?>&searchTerm=<?php echo $searchTerm; ?>">Back</a>
     <a href="profile.php?currentID=<?php echo $currID; ?>">Profile</a>
     <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
@@ -40,17 +42,21 @@
 </div>
 
 <div id="User Info" class="tabs">
+
+  <div class="w3-container w3-blue-grey">
   <h2><?php echo "$userName"?></h2>
   <?php $query = "SELECT * from User where name = '$userName' and  user_id = '$userID'";
   		$email = mysqli_query($connections,$query);
   		$row=mysqli_fetch_assoc($email);
-  		echo $row['email_address'];
+  		$eA = $row['email_address'];
+      echo "$eA";
   ?><br>
   <?php $query = "SELECT * from User where name = '$userName' and  user_id = '$userID'";
   		$nationality = mysqli_query($connections,$query);
   		$row=mysqli_fetch_assoc($nationality);
-  		echo $row['nationality'];
-  ?><br>
+  		$nat = $row['nationality'];
+      echo "$nat";
+  ?><br> </div>
 </div>
 
 <div id="Clubs" class="tabs" style="display:none">
@@ -117,14 +123,15 @@
   <?php
   	$books = null;
   	$query = "SELECT * from Book, User, HAS_READ where (User.user_id = '$userID' and 
-  	HAS_READ.user_id = User.user_id) and (Book.book_id = HAS_READ.book_id)";
+  	HAS_READ.userID = User.user_id) and (Book.book_id = HAS_READ.bookID)";
   	$books = mysqli_query($connections,$query);
 
+    if($books!=null){
   	if(mysqli_num_rows($books) > 0){
   		while ($r=mysqli_fetch_assoc($books)) {
   			$cN = $r['title'];
   			$stat = $r['summary'];
-  			$date_joined = $r['date_finished'];
+  			$date_joined = $r['dateFINISHED'];
   			echo "<tr>
 
   			<td> 
@@ -139,7 +146,7 @@
 
   			</tr>";
   		}	
-  	}else{
+  	}}else{
   		echo "No Books Read";
   	}
 

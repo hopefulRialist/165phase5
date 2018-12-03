@@ -59,7 +59,7 @@ if (isset($_POST["btnSearch"])) { #if search button was pushed
      <a class= "active" href="index.php">Home</a>
      <a href="login.php" onclick="">Log In</a>
      <a href="signup.php" onclick="">Sign Up</a>
-   <?php else: $currentID = $_GET['currentID'];?>
+   <?php else: $currentID = $_GET['currentID']; ?>
     <a class= "active" href="index_loggedin.php?currentID=<?php echo $currentID;?>">Home</a>
     <a href="profile.php?currentID=<?php echo $currentID;?>">Profile</a>
     <a href="logout.php" onclick="">Log Out</a>

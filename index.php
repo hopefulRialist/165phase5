@@ -1,10 +1,19 @@
 <?php
+/*
+search result page*/
+/*
+signup keeps just showing  error 1
+LOGOUT
+PHP IF STATEMENT: https://stackoverflow.com/questions/722379/can-html-be-embedded-inside-php-if-statement
+VARIABLE ACCESS: https://stackoverflow.com/questions/18588972/how-to-access-a-variable-across-two-files
+STILL NEED VAR ACCESS AND HOW TO MODIFY IT FROM ANOTHER FILE
+*/
 session_start();
 include ("connections.php");
 $searchTerm = $searchType = "";
 $searchTermErr= $searchTypeErr = "";
 if (isset($_SESSION["user_id"])) {
-
+  
   $user_id=$_SESSION["user_id"];
 
 }

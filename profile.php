@@ -64,11 +64,18 @@
   <a href='deactivate-authenticate.php?currentID=<?php echo $userID; ?>' class="w3-button w3-black w3-block">Deactivate Account</a> 
 </div>
 
+ <?php
+      if(isset($_POST['create'])){
+        echo "<script>window.location.href='create-club.php?currentID=$userID'</script>";
+      }
+  ?>
+
 <div id="Clubs" class="tabs" style="display:none">
   <h2></h2>
   <div class="w3-container">
   <h2>Active Memberships</h2>
-
+  <form method="POST">
+    <button class="w3-button w3-round w3-blue w3-small" name='create'>Create A New Club</button></form>
   <table class="w3-table-all w3-hoverable">
     <thead>
       <tr class="w3-light-grey">
@@ -162,7 +169,7 @@
         $date_joined
         </td>
         <td>
-        <a href='book_page.php?book_title=$cN&currentID=$userID'>View</a>
+        <a href='book_page.php?currentID=$userID&book_title=$cN'>View</a>
         </td>
 
         </tr>";

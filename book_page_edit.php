@@ -4,15 +4,15 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre" rel="stylesheet">
 </head>
 
+<?php $user_id = $_GET['currentID']; 
+	  $book = $_GET['book_title'];?>
+
 <div class="topnav">
-   <a href="index.php">Home</a>
-   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
-  <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
+
+    <a href="book_page.php?currentID=<?php echo $user_id ?>&book_title=<?php echo $book; ?>">Back</a>
+    <a href="profile.php?currentID=<?php echo $user_id ?>" onclick="location.href = profile.php">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
+
 </div>
 <center>
 <table border="0" width="70%">
@@ -41,10 +41,7 @@
 <?php
 session_start();
 include("connections.php");
-if (isset($_SESSION["user_id"])) {
-	$user_id=$_SESSION["user_id"];
 
-	}
 $chosen_title=$_GET["book_title"];
 
 
@@ -55,9 +52,7 @@ $db_book_title=$row["title"];
 $db_book_genre=$row["genre"];
 $db_book_summary=$row["summary"];
 ?>
- <div align="left">
- 	<a href="book_page.php?user_id=<?php echo $user_id ?>&book_title=<?php echo $chosen_title ?>"><b> Back</b> </a>
-</div> 
+
 
 <?php
 echo "<h1><font color='#024cb5'>Book Review for $db_book_title</font></h1>";
@@ -89,9 +84,9 @@ $review_query=mysqli_query($connections,"SELECT * FROM user,book,reviews WHERE b
 					<td>$db_rating</td>
 					<td>$db_time_submitted</td>
 					<td>
-						<center><a href='edit_review.php?book_title=$chosen_title'>Edit</a>
+						<center><a href='edit_review.php?book_title=$chosen_title&currentID=$user_id'>Edit</a>
 						|
-						<a href='delete_review.php?book_title=$chosen_title'>Delete</a>
+						<a href='delete_review.php?book_title=$chosen_title&currentID=$user_id'>Delete</a>
 					</td>
 					</tr>
 					<tr><td colspan='5'> <hr> </td></tr>";

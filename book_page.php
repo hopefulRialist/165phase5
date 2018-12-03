@@ -3,16 +3,21 @@
   <link type = "text/css" rel="stylesheet" href="main.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Proza+Libre" rel="stylesheet">
 </head>
+<?php
+session_start();
+include("connections.php");
+?>
 
 <div class="topnav">
-   <a href="index.php">Home</a>
-   <a href="profile.php" onclick="location.href = profile.php">Profile</a>
-   <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
-     <a href="login.php" onclick="">Log In</a>
-   <?php else: ?>
-     <a href="logout.php" onclick="">Log Out</a>
+  <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
+    <a href="index.php">Home</a>
+    <a href="login.php" onclick="">Log In</a>
+    <a href="signup.php" onclick="">Sign Up</a>
+   <?php else: $user_id = $_GET['currentID'];?>
+    <a href="index_loggedin.php?currentID=<?php echo $user_id ?>">Home</a>
+    <a href="profile.php?currentID=<?php echo $user_id ?>" onclick="location.href = profile.php">Profile</a>
+    <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-   <a href="signup.php" onclick="">Sign Up</a>
 </div>
 
 
@@ -41,14 +46,6 @@
 
 
 <?php
-session_start();
-include("connections.php");
-if (isset($_SESSION["user_id"])) {
-
-	$user_id=$_SESSION["user_id"];
-	
-
-}
 
 $chosen_title=$_GET["book_title"];
 $book_query=mysqli_query($connections,"SELECT * FROM reviews,book WHERE book.book_id=reviews.book_id AND book.title='$chosen_title'");
@@ -123,8 +120,9 @@ $review_query=mysqli_query($connections,"SELECT * FROM user,book,reviews WHERE b
 
 	$name=$review_title=$review_body=$rating="";
 	$nameErr=$review_titleErr=$review_bodyErr=$ratingErr="";
+	if($_SESSION['loginStatus']==1){
 	if (isset($_POST["btnSubmit"])) {
-		
+		$user_id = $_GET['currentID'];
 
 		if (empty($_POST["review_title"])) {
 			$review_titleErr="Review Title is required";
@@ -165,72 +163,95 @@ $review_query=mysqli_query($connections,"SELECT * FROM user,book,reviews WHERE b
 					if ($check_review_body < 2) {
 						$review_bodyErr="Review Body is too short";
 					}else{
-						$user_name=mysqli_query($connections,"SELECT name FROM user WHERE user_id='$user_id'");
+						$username=mysqli_query($connections,"SELECT name FROM user WHERE user_id='$user_id'");
+						$row=mysqli_fetch_assoc($username);
+						$user_name=$row['name'];
 						$book_id=mysqli_query($connections,"SELECT book_id FROM book WHERE title='$chosen_title'");
 						$book_row=mysqli_fetch_assoc($book_id);
 						$db_book_id=$book_row["book_id"];
-						#mysqli_query($connections,"INSERT INTO review(user_id,book_id,title,body,rating,time_submitted) VALUES('$user_id','$book_id','$review_title','$review_body','$rating',now() )";
-						mysqli_query($connections,"INSERT INTO reviews(user_id,book_id,title,body,rating,time_submitted) VALUES('$user_id','$db_book_id','$review_title','$review_body','$rating',now())");
+						$now = date_create()->format('Y-m-d H:i:s');
 						
-						echo "<script>window.location.href='book_page.php?book_title=$chosen_title'</script>";
+						$query = "INSERT INTO reviews(user_id,book_id,title,body,rating,time_submitted) VALUES('$user_id', '$db_book_id', 
+						'$review_title', '$review_body', '$rating', '$now')";
+
+						if($connections->query($query) === TRUE){
+
+							echo "<script>window.location.href='book_page.php?book_title=$chosen_title&currentID=$user_id'</script>";
 						
+						}else{
+							echo "ERROR";
+						}
+
 					}
 				}
 			
 		}
-	
-
+	}
 }
 
 ?>
 
 <?php
-	
-	if (isset($_POST["btnInsert"])){
-		$book_id=mysqli_query($connections,"SELECT book_id FROM book WHERE title='$chosen_title'");
-		$book_row=mysqli_fetch_assoc($book_id);
-		$db_book_id=$book_row["book_id"];
-		$the_id=mysqli_query($connections,"SELECT * FROM reviews,user WHERE user.user_id='$user_id' AND reviews.book_id='$db_book_id' AND user.user_id=reviews.user_id ");
-		$num_row=mysqli_num_rows($the_id);
-		if($num_row<1){
+	$notErr="";
+	if($_SESSION['loginStatus']==1){
+		if (isset($_POST["btnInsert"])){
+			$user_id = $_GET['currentID'];
+			$book_id=mysqli_query($connections,"SELECT book_id FROM book WHERE title='$chosen_title'");
+			$book_row=mysqli_fetch_assoc($book_id);
+			$db_book_id=$book_row["book_id"];
+			$the_id=mysqli_query($connections,"SELECT * FROM reviews,user WHERE user.user_id='$user_id' AND reviews.book_id='$db_book_id' AND user.user_id=reviews.user_id");
+			$num_row=mysqli_num_rows($the_id);
+			if($num_row<1){
 			
-echo"
+				echo"
 
-<form method = 'POST'>
-	<input type='text' name='review_title' required placeholder='Review Title'>	<br>
-	<input type='text' name='review_body' required placeholder='Review Body'><br>
-	<input type='text' name='rating' required placeholder='Rating' ><br>
+				<form method = 'POST'>
+					<input type='text' name='review_title' required placeholder='Review Title'>	<br>
+					<input type='text' name='review_body' required placeholder='Review Body'><br>
+					<input type='text' name='rating' required placeholder='Rating' ><br>
 
-	<input type='submit' name='btnSubmit' value='Submit'><br>
+					<input type='submit' name='btnSubmit' value='Submit'><br>
 
-</form>
-"; 
+				</form>
+				"; 
 
-}
-else{
-	echo "<h3><font color='red'>You have an existing review for this book!</font></h3>" ;
-	
-	echo "<h3><font color='red'>You can change your review for this book anytime, just click the edit review button</font> </h3>";
-}
+			}
+			else{
+				echo "<h3><font color='red'>You have an existing review for this book!</font></h3>" ;
+				
+				echo "<h3><font color='red'>You can change your review for this book anytime, just click the edit review button</font> </h3>";
+			}
+		}
 
+	}else{
+		$notErr = "You are not logged in!";
+		$notErr="";
+	}
+?>
+<?php 
+if($_SESSION['loginStatus']== 1){
+	if(isset($_POST["btnEdit"])){
+		$user_id = $_GET['currentID'];
+		$book_query=mysqli_query($connections,"SELECT * FROM reviews,book WHERE book.book_id=reviews.book_id AND book.title='$chosen_title'");
+		$book_row=mysqli_fetch_assoc($book_query);
+		$book_id=$book_row["book_id"];
+		$get_record = mysqli_query($connections, "SELECT * FROM reviews WHERE user_id='$user_id' AND book_id='$book_id'");
+		$get_record_num= mysqli_num_rows($get_record);  #check if may record ba
+
+		if($get_record_num>0){
+		echo "<script>window.location.href='book_page_edit.php?book_title=$chosen_title&currentID=$user_id'</script>";
+		}
+		else{
+			echo "<h3><font color='red'>You have nothing to edit</font></h3>";
+			echo "<h3><font color='red'>Please add a review first</font></h3>";
+		}
+	}
+}else{
+		$notErr = "You are not logged in!";
+		$notErr="";
 }
 ?>
-<?php if(isset($_POST["btnEdit"])){
-	$book_query=mysqli_query($connections,"SELECT * FROM reviews,book WHERE book.book_id=reviews.book_id AND book.title='$chosen_title'");
-	$book_row=mysqli_fetch_assoc($book_query);
-	$book_id=$book_row["book_id"];
-	$get_record = mysqli_query($connections, "SELECT * FROM reviews WHERE user_id='$user_id' AND book_id='$book_id'");
-	$get_record_num= mysqli_num_rows($get_record);  #check if may record ba
 
-	if($get_record_num>0){
-	echo "<script>window.location.href='book_page_edit.php?book_title=$chosen_title&user_id=$user_id'</script>";
-	}
-	else{
-		echo "<h3><font color='red'>You have nothing to edit</font></h3>";
-		echo "<h3><font color='red'>Please add a review first</font></h3>";
-	}
-}
-?>
-
+<span class='error'><?php echo $notErr; ?></span>
 
 
