@@ -68,8 +68,8 @@
     </thead>
   <?php
   	$clubs = null;
-  	$query = "SELECT * from Club, User, member_of where (User.user_id = '$userID' and 
-  	member_of.user_id = user.user_id) and (Club.club_id = member_of.club_id)";
+  	$query = "SELECT * from Club, User, MEMBER_OF where (User.user_id = '$userID' and 
+  	MEMBER_OF.user_id = User.user_id) and (Club.club_id = MEMBER_OF.club_id)";
   	$clubs = mysqli_query($connections,$query);
 
   	if(mysqli_num_rows($clubs) > 0){
@@ -116,8 +116,8 @@
     </thead>
   <?php
   	$books = null;
-  	$query = "SELECT * from Book, User, has_read where (User.user_id = '$userID' and 
-  	has_read.user_id = user.user_id) and (Book.book_id = has_read.book_id)";
+  	$query = "SELECT * from Book, User, HAS_READ where (User.user_id = '$userID' and 
+  	HAS_READ.user_id = User.user_id) and (Book.book_id = HAS_READ.book_id)";
   	$books = mysqli_query($connections,$query);
 
   	if(mysqli_num_rows($books) > 0){

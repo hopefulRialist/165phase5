@@ -2,10 +2,6 @@
   include ("connections.php"); 
   session_start();
   $userID = $_GET['currentID'];
-  if (isset($_SESSION["user_id"])) {
-  $user_id=$_SESSION["user_id"];
-
-}
 ?>
 
 <head>
@@ -41,17 +37,31 @@
 </div>
 
 <div id="User Info" class="tabs">
-  <div class="w3-container w3-blue">
+  <div class="w3-container w3-blue-grey">
   <h2>Username:
   <?php
     $query = "SELECT * from User where user_id = '$userID'";
     $name = mysqli_query($connections, $query);
     $row = mysqli_fetch_assoc($name);
-    echo $row['name'];
-    echo "<h2>"; ?>
-  
+    echo $row['name']; ?>
+  <h2>
+  <h6>Email:
+   <?php
+    $query = "SELECT * from User where user_id = '$userID'";
+    $name = mysqli_query($connections, $query);
+    $row = mysqli_fetch_assoc($name);
+    echo $row['email_address'];
+    echo "<h6>"; ?>
+  <h6>Nationality:
+   <?php
+    $query = "SELECT * from User where user_id = '$userID'";
+    $name = mysqli_query($connections, $query);
+    $row = mysqli_fetch_assoc($name);
+    echo $row['nationality'];
+    echo "<h6>"; ?>
   </div>
-  
+  <a href='editusername.php?currentID=<?php echo $userID; ?>' class="w3-button w3-black w3-block">Edit Profile</a> 
+  <a href='deactivate-authenticate.php?currentID=<?php echo $userID; ?>' class="w3-button w3-black w3-block">Deactivate Account</a> 
 </div>
 
 <div id="Clubs" class="tabs" style="display:none">

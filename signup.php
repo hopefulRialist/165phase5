@@ -26,12 +26,12 @@ if (isset($_POST["btnSignUp"])) {
 
       if ($connections->query($query)===TRUE) {
         $confirmation = "You have succesfully signed up!";
-        $_SESSION['loginStatus'] = 1;
         $emailErr = $passwordErr = $password_repeatErr = $name = $nationalityErr = "";
+        echo "<script>window.location.href='login.php'</script>";
       } else {
-        echo "Error: " . $insert . "<br>" . $connections->error;
+        echo "Error: " . $query . "<br>" . $connections->error;
       }
-      $connections -> close();
+   
 
     }
   }
@@ -64,10 +64,7 @@ if(isset($_POST["btnSignUp"])) {
     <a href="index.php" onclick="location.href=index.php">Home</a>
     <a href="login.php" onclick="">Log In</a>
     <a class="active" href="signup.php" onclick="">Sign Up</a>
-   <?php else: $currentID = $row[$user_id];?>
-     <a href="index_loggedin.php?currentID=<?php echo $current_ID;?>">Home</a>
-     <a href="logout.php" onclick="'">Log Out</a>
-  <?php endif; ?>
+   <?php endif; ?>
  
 </div>
 
