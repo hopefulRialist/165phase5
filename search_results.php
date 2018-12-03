@@ -17,7 +17,7 @@ if (isset($_SESSION["user_id"])) {
 </head>
 
 <div class="topnav">
- 
+
    <?php if ((!isset($_SESSION['loginStatus'])) || $_SESSION['loginStatus']== 0): ?>
     <a href="index.php">Home</a>
     <a href="login.php" onclick="">Log In</a>
@@ -27,7 +27,7 @@ if (isset($_SESSION["user_id"])) {
     <a href="profile.php?currentID=<?php echo $currID; ?>">Profile</a>
     <a href="logout.php" onclick="">Log Out</a>
   <?php endif; ?>
-  
+
 </div>
 <link rel="stylesheet" href="w3.css">
 
@@ -55,7 +55,7 @@ if (isset($_SESSION["user_id"])) {
         while ($row=mysqli_fetch_assoc($name_query)) {
           $db_id = $row["user_id"];
           $db_name=$row["name"];
-     
+
           if((!isset($_GET['currentID']))):
             echo "<tr> <td> <h2>$db_name</h2>
             <td> <a href='userview.php?id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>";
@@ -64,7 +64,7 @@ if (isset($_SESSION["user_id"])) {
              echo "<tr> <td> <h2>$db_name</h2>
              <td> <a href='userview.php?currentID=$currID&id=$db_id&user_name=$db_name&searchType=$searchType&searchTerm=$searchTerm'><h2>View</h2></a> </td>";
           endif;
-          
+
           echo "</tr>";
         }
       }
@@ -87,11 +87,20 @@ if (isset($_SESSION["user_id"])) {
         $club_query = mysqli_query($connections,$query);
         while ($row=mysqli_fetch_assoc($club_query)) {
           $db_club_name=$row["club_name"];
-          echo"
-          <tr>
-            <td> <a href='club_page.php?db_club_name=$db_club_name'><h2>$db_club_name</h2></a> </td>
-          </tr>
-          ";
+          if((!isset($_GET['currentID']))):
+                echo"
+                <tr>
+                  <td> <a href='club_page.php?db_club_name=$db_club_name'><h2>$db_club_name</h2></a> </td>
+                </tr>
+                ";
+          else:
+                $currID = $_GET['currentID'];
+                echo"
+                <tr>
+                  <td> <a href='club_page.php?db_club_name=$db_club_name&currentID=$currID'><h2>$db_club_name</h2></a> </td>
+                </tr>
+                ";
+          endif;
         }
         if (isset($_POST['btnViewClub'])) {
 
