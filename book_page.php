@@ -115,6 +115,8 @@ $review_query=mysqli_query($connections,"SELECT * FROM user,book,reviews WHERE b
 	<input type="submit" name="btnEdit" value="Edit Review">
 </form>
 
+
+
 <?php
 
 
@@ -224,8 +226,8 @@ $review_query=mysqli_query($connections,"SELECT * FROM user,book,reviews WHERE b
 		}
 
 	}else{
-		$notErr = "You are not logged in!";
-		$notErr="";
+		echo "<h3><font color='red'>You are not logged in!</font></h3>";
+		
 	}
 ?>
 <?php 
@@ -246,12 +248,8 @@ if($_SESSION['loginStatus']== 1){
 			echo "<h3><font color='red'>Please add a review first</font></h3>";
 		}
 	}
-}else{
-		$notErr = "You are not logged in!";
-		$notErr="";
 }
 ?>
 
-<span class='error'><?php echo $notErr; ?></span>
 
 

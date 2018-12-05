@@ -90,7 +90,7 @@ if($get_record_num>0){
                 WHERE user_id='$user_id' AND book_id='$db_book_id'
                         ");
 
-                echo "<script>window.location.href='book_page.php?book_title=$chosen_title'</script>";
+                echo "<script>window.location.href='book_page.php?book_title=$chosen_title&currentID=$user_id'</script>";
   
         }
 
